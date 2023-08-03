@@ -24,7 +24,7 @@ fun split l =
 
 fun assert s cond = if cond then () else print("wrong test")
 
-val test = (
+fun test () = (
  assert "h0" (halve [] = ([], []));
  assert "h1" (halve [42] = ([42], []));
  assert "h2" (halve [17, 42] = ([17],[42]));

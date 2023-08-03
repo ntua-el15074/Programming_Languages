@@ -18,3 +18,52 @@ local
 in
   fun test f = runtests f tests
 end
+
+fun smallest l =
+  let
+    val sorted_l = ListMergeSort.sort (op>) l
+    fun get_first_gap n [] = n
+      | get_first_gap n (h::t) = if n = h then get_first_gap (n+1) t else n
+    in
+      get_first_gap 0 sorted_l
+    end
+
+fun smallest2 l = 
+  let 
+    val n = length l
+    val a = Array.array (n,false)
+    fun fill [] = ()
+      | fill (h::t) = (
+        if h < n then Array.update (a, h, true) else ();
+        fill t
+      )
+    fun get_first_gap i = 
+      if i >= n orelse not (Array.sub (a, i)) then i else get_first_gap (i+1)
+ in
+   fill l;
+   get_first_gap 0 
+ end
+
+
+local
+  structure S = BinarySetFn(struct
+    type ord_key = int
+    val compare = Int.compare
+  end)
+in
+  fun smallest3 l = 
+    let
+      val s = S.addList (S.empty, l)
+      fun get_first_gap i = 
+        if not (S.member (s, i)) then i else get_first_gap (i+1)
+    in
+      get_first_gap 0 
+    end
+end
+
+
+
+
+
+
+
